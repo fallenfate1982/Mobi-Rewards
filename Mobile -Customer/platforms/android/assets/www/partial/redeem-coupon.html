@@ -1,0 +1,30 @@
+<ion-view>
+    <ion-header-bar class="bar-positive nav-title-slide-ios7">
+        <!--<a class="button icon-left ion-chevron-left button-clear bar-positive" ng-click="back()"></a>-->
+        <h1 class="title">Coupon Details</h1>
+    </ion-header-bar>
+    <ion-content has-footer="true" has-tabs="true">      
+        <div class="list card c-list">
+            <div class="item">
+                <img class="full-image" src="data:image/jpeg;base64,{{coupon.qrCodeImage}}">                  
+            </div>
+            <div class="item item-body item-text-wrap">
+                <h3>{{coupon.couponTitle}}</h3>
+                <p>{{coupon.dateEnd | date:dd-MMM-yy}}</p>
+            </div>           
+            <div class="item item-body item-text-wrap">
+                <img class="full-image" src="data:image/jpeg;base64,{{coupon.couponImage}}">
+                <p>
+                    {{coupon.description}}
+                </p>
+            </div>
+            <div class="item item-text-wrap">
+                <h2>Terms and Conditions</h2>
+                <p>
+                    {{coupon.terms}}    
+                </p>                
+            </div>
+
+        </div>
+    </ion-content>
+</ion-view>

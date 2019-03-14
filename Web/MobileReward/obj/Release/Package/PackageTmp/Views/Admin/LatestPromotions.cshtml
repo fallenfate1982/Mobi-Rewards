@@ -1,0 +1,37 @@
+﻿@model IList<MobileReward.Models.Promotion>
+@{
+    Layout = null;
+}
+
+ <div class="right_side_box">
+        <h1 style="font-size: 15px; padding-left: 16px;">Latest Promotions</h1>
+        @*<div class="right_side_box" id="divDetails">*@
+        <div class="right_side_innerbox">
+            <div class="box_table" style="width:100%;margin-top:0px;">
+                <table class="box_table CSSTableGenerator" id="tblpromotion" style="width: 100%">
+                    <thead>
+                        <tr>
+                                <th width="22%">Promotion Title</th>
+                                <th width="27%">Promotion Name</th>
+                                <th width="18%">Start Date</th>
+                                <th width="35%">End Date</th>
+                               @* <th></th>*@
+                              </tr>
+                    </thead>
+                    <tbody data-bind="foreach: items" class="form-inline">
+                      @foreach (var p in @Model.Where(x => x.IsApproved == true))
+                      {
+                         <tr>
+                            <td><span>@p.PromotionTitle</span></td>@*<a href="@Url.Action("PromotionDetails", "Merchant", new { promotionid = @p.PromotionId })">*@
+                            <td>@p.PromotionName</td>
+                            <td>@Convert.ToDateTime(p.DateStart).ToString("dd-MMM-yyyy")</td>
+                            <td>@Convert.ToDateTime(p.DateEnd).ToString("dd-MMM-yyyy")</td>
+                          @*  <td> <a href="@Url.Action("AdminPromotionEdit", "Admin", new { promotionid = @p.PromotionId })">
+                            <u><b>Edit</b></u>
+                            </a></td>*@
+                        </tr>
+                      }
+                </table>
+        </div>
+   </div>
+</div>

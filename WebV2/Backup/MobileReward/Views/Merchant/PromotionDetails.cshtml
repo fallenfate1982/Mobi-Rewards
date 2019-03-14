@@ -1,0 +1,133 @@
+﻿@model MobileReward.Models.Promotion
+
+@{
+    Layout = "~/Views/Shared/_SubLayout.cshtml";
+    ViewBag.Title = "Promotion";
+    
+}
+
+<div class="right_side_box">
+    <h1 style="font-size: 15px; padding-left: 16px;">Promotion Detail</h1>
+    <div class="right_side_innerbox">
+        @if ((ViewBag.ShowNotes + "") == "true")
+        {
+            <div class="info" style="width: 90%">
+                <b>Note :</b> This promotion is not having any single coupon so promotion will not list into the market place.
+            </div>   
+        }
+        <div class="p_header"><span>Promotion Information</span></div>
+        <div>
+            <table cellpadding="2" cellspacing="8" class="details">
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    <div>
+                                        @if (@Model.IsStop == true)
+                                        {
+                                            <br />
+                                            <label class="show-error">This Promotion has been Stopped, Please contact Admin.</label>
+                                            <br />
+                                        }
+
+                                        <table style="width: 425px; height: 170px;">
+                                            <tr>
+                                                <br />  
+                                                <td style="width: 197px;"><strong>Advertisment Name</strong></td>
+                                                <td>@Model.AdvertisementName</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 197px;"><strong>Promotion Title</strong></td>
+                                                <td>@Model.PromotionTitle</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 197px;"><strong>Promotion Name</strong></td>
+                                                <td>@Model.PromotionName</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 197px;"><strong>Start Date</strong></td>
+                                                <td>@Convert.ToDateTime(Model.DateStart).ToString("dd-MMM-yyyy")</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 197px;"><strong>End Date</strong></td>
+                                                <td>@Convert.ToDateTime(Model.DateEnd).ToString("dd-MMM-yyyy")</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                                @*<td>
+                                    <div>
+                                        <table>
+                                            <tr>                                                   
+                                                <td style="text-align:center; width:275px;"><span><strong>
+                                                <a target="_blank" href="http://chart.apis.google.com/chart?cht=qr&chs=145x145&chl=@Model.BarCodeNumber&chld=H|0">@Model.BarCodeNumber</a>
+                                                </strong></span><br /><img src="http://chart.apis.google.com/chart?cht=qr&chs=145x145&chl=@Model.BarCodeNumber&chld=H|0"/></td>                                                
+                                            </tr>
+                                        </table>
+                                        
+                                    </div>
+                                </td>*@
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <td style="width: 197px;"><strong>Description</strong></td>
+                                            <td>@Model.PromotionDescription</td>
+                                        </tr>
+                                    </table>
+                                </td>
+
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                </tr>
+            </table>
+            <div class="p_header"></div>
+            <table cellpadding="2" cellspacing="8" class="details">
+                @*<tr>
+                    <td width="40%"><strong>Redemption Limit</strong></td>
+                    <td>@Model.RedemptionLimit</td>
+                </tr>
+                <tr>
+                    <td><strong>Barcode number</strong></td>
+                    <td>@Model.BarCodeNumber</td>
+                </tr>*@
+                <tr>
+                    <td><strong>Target</strong></td>
+                    <td>
+                        @if (Model.TargetCountryId != null && Model.TargetCountryId > 0)
+                        {
+                            <span>Country:  &nbsp;&nbsp;&nbsp;@Model.MasterCountry.CountryName</span>    
+                        }
+                        else if (Model.TargetStateId != null && Model.TargetStateId > 0)
+                        {
+                            <span>State:  &nbsp;&nbsp;&nbsp;@Model.MasterState.StateName</span>
+                        }
+                        else
+                        {
+                            <span>Global:&nbsp;&nbsp;&nbsp;true</span>                
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Promotion Image</strong></td>
+                    <td>
+                        <img src= "/UserFiles/Promotions/@Url.Content(Model == null || Model.FilePath == null ? "nopic.jpg" : Model.FilePath)" alt="Image"  style="width:260px;height:156px">
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="clear">&nbsp;</div>
+    </div>
+</div>

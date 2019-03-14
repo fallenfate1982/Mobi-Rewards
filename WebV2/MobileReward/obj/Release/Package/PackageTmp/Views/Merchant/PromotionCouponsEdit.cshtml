@@ -1,0 +1,210 @@
+﻿@model MobileReward.Models.PromotionsCoupon
+@{
+    Layout = "~/Views/Shared/_SubLayout.cshtml";
+    ViewBag.Title = "Promotion Coupons";
+    int id = ViewBag.PromotionId ?? 0;
+}
+<style>
+    .drop {
+        width: 297px;
+        height: 32px;
+    }
+</style>
+@using (Html.BeginForm("PromotionCouponsEdit", "Merchant", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.CouponId, new { @Value = (Model == null ? "0" : Model.CouponId.ToString()) })
+    <div class="right_side_box">
+        <span style="text-align: center;">@Html.ValidationSummary(false)</span>
+        @if (@Model.CouponId == 0)
+        {
+            <h1 style="font-size: 15px; padding-left: 16px;">Create Coupon</h1>
+        }
+        else
+        {
+            <h1 style="font-size: 15px; padding-left: 16px;">Edit Coupon</h1>
+        }
+        <div class="right_side_innerbox">
+            <div class="p_header"><span>Coupon Information</span></div>
+            <div class="box_table">
+                <div class="p_header_text">
+                    Promotion Name
+                    <label>*</label>
+                </div>
+                <div class="p_header_box">
+                    @Html.DropDownListFor(m => m.PromotionId, (IEnumerable<SelectListItem>)ViewBag.Promotions, "---Select---", new { @class = "drop", id = "dlPromotions" })
+                </div>
+                <div class="clear"></div>
+
+                <div class="p_header_text">
+                    Coupon Name
+                    <label>*</label>
+                </div>
+                <div class="p_header_box">
+                    @Html.TextBoxFor(m => m.CouponName)
+                </div>
+                <div class="clear"></div>
+                <div class="p_header_text">
+                    Coupon Title
+                    <label>*</label>
+                </div>
+                <div class="p_header_box">
+                    @Html.TextBoxFor(m => m.CouponTitle)
+                </div>
+                <div class="clear"></div>
+                <div class="p_header_text">
+                    Redemption Limit
+                    <label>*</label>
+                </div>
+                <div class="p_header_box">
+                    @Html.TextBoxFor(m => m.RedemptionLimit, new { @Value = @Model.RedemptionLimit == 0 ? "" : @Model.RedemptionLimit + "" })
+                </div>
+                <div class="p_header_text">&nbsp;</div>
+                <div class="p_header_box" style="display: none">
+                    <div id="date_cal">
+                        <span>
+                            Start Date
+                            <label>*</label>
+                            @Html.TextBoxFor(model => model.DateStart, new { @class = "date", id = "txtDateFrom", @Value = (Model == null || Model.DateStart == null ? "" : Convert.ToDateTime(Model.DateStart).ToString("dd-MMM-yyyy")) })
+                            <img src="/images/calander.JPG" align="absmiddle" style="margin-top: -3px; margin-right: 90px;">
+                            End Date
+                            <label>*</label>
+                            @Html.TextBoxFor(model => model.DateEnd, new { @class = "date", id = "txtDateTo", @Value = (Model == null || Model.DateStart == null ? "" : Convert.ToDateTime(Model.DateEnd).ToString("dd-MMM-yyyy")) })
+                            <img src="/images/calander.JPG" align="absmiddle" style="margin-top: -3px;">
+                        </span>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="p_header_text">Coupon Description<label>*</label></div>
+                <div class="p_header_box">
+                    @Html.TextAreaFor(m => m.CouponDescription, new { @class = "p_header_tarea" })
+                </div>
+                <div class="clear"></div>
+                <div class="p_header_text">Term & Conditions<label>*</label></div>
+                <div class="p_header_box">
+                    @Html.TextAreaFor(m => m.TermsAndCondition, new { @class = "p_header_tarea" })
+                </div>
+
+
+
+                <div class="clear">&nbsp;</div>
+
+                <div class="p_header_text">
+                    Coupon Image
+                </div>
+                <div class="p_header_box">
+                    <br />
+                    <input type="file" name="couponFiles" accept=".jpg,.jpeg,.png,.gif,.bmp,.JPG,.JPEG,.PNG,.GIF,.BMP" onchange="showimagepreview(this)" />
+                </div>
+                <div class="clear">&nbsp;</div>
+                <img src="/UserFiles/Promotions/Coupons/@Url.Content(Model == null || Model.CouponImageName == null ? "nopic.jpg" : Model.CouponImageName)" alt="Image" style="margin-left: 140px;width:260px;height:156px" id="imgUpload">
+                <div class="clear">&nbsp;</div>
+
+                <div class="p_header_text">
+                    BarCode Image
+
+                </div>
+                <div class="p_header_box">
+                    <br />
+                    <input type="file" name="barcodeFiles" accept=".jpg,.jpeg,.png,.gif,.bmp,.JPG,.JPEG,.PNG,.GIF,.BMP" onchange="barcodeimage(this)" />
+                </div>
+                <div class="clear">&nbsp;</div>
+                <img src="/UserFiles/BarCodes/@Url.Content(Model == null || Model.BarCodeImageName == null ? "nopic.jpg" : Model.BarCodeImageName)" alt="Image" style="margin-left: 140px;width:260px;height:156px" id="barcodeUpload">
+                <div class="clear">&nbsp;</div>
+
+            </div>
+        </div>
+        <div class="clear">&nbsp;</div>
+        <div>
+            @*<input type="reset" value="Reset" class="button_account" id="accounts" />*@
+            <input type="submit" value="Save & Exit" class="button_account" id="accounts" style="width: 150px" onclick="this.disabled=true;this.form.submit();" />
+            @if (@Model.CouponId == 0)
+            {
+                <input type="submit" value="Save & Continue" class="button_account" id="accounts" style="width: 150px" name="continue" />
+            }
+            <div class="clear">&nbsp;</div>
+            @if (ViewBag.Status != null)
+            {
+                <div class="success">
+                    @ViewBag.Status
+                </div>
+            }
+
+        </div>
+        <div class="clear">&nbsp;</div>
+    </div>
+
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            @*  var id = @id;
+            if(id != 0)
+            {
+                $('#dlPromotions').attr('disabled', true)
+            }
+            else
+            {
+                $('#dlPromotions').attr('disabled', false)
+            }*@
+
+
+            $(function () {
+
+                showToDate(new Date());
+                $("#txtDateFrom").datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    dateFormat: 'dd-M-yy',
+                    minDate: 0,
+                    onSelect: function (selected) {
+                        $("#txtDateTo").datepicker("option", "minDate", selected);
+                    },
+                    onClose: function (dateText, inst) {
+                        $("#txtDateTo").focus();
+                    }
+                });
+
+                function showToDate() {
+                    $("#txtDateTo").datepicker({
+                        changeMonth: true,
+                        changeYear: true,
+                        dateFormat: 'dd-M-yy',
+                    });
+                }
+            });
+        });
+
+        function showimagepreview(input) {
+            if (input.files && input.files[0]) {
+
+                $($(input)[0].files).each(function () {
+                    var filerdr = new FileReader();
+                    var name = $(this)[0].name;
+                    filerdr.onload = function (e) {
+                        $("#imgUpload").attr('src', e.target.result);
+                    }
+                    filerdr.readAsDataURL($(this)[0]);
+
+                });
+            }
+        }
+
+        function barcodeimage(input) {
+            if (input.files && input.files[0]) {
+
+                $($(input)[0].files).each(function () {
+                    var filerdr = new FileReader();
+                    var name = $(this)[0].name;
+                    filerdr.onload = function (e) {
+                        $("#barcodeUpload").attr('src', e.target.result);
+                    }
+                    filerdr.readAsDataURL($(this)[0]);
+
+                });
+            }
+        }
+    </script>
+}

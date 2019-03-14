@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0929f2fe340b402291c6cc622e17058f" Name="Diagram1">
+        <EntityTypeShape EntityType="MobiRward.Service.Model.MasterCountry" Width="1.5" PointX="0.75" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MobiRward.Service.Model.MasterState" Width="1.5" PointX="3" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MobiRward.Service.Model.Promotion" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MobiRward.Service.Model.UserProfile" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MobiRward.Service.Model.webpages_Membership" Width="1.5" PointX="2.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MobiRward.Service.Model.webpages_OAuthMembership" Width="1.5" PointX="7.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MobiRward.Service.Model.webpages_Roles" Width="1.5" PointX="7.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MobiRward.Service.Model.webpages_UsersInRoles" Width="1.5" PointX="10" PointY="0.875" IsExpanded="true" />
+        <AssociationConnector Association="MobiRward.Service.Model.FK_dbo_MasterState_dbo_MasterCountry_CountryId" ManuallyRouted="false" />
+        <AssociationConnector Association="MobiRward.Service.Model.FK_dbo_Promotions_dbo_MasterCountry_TargetCountryId" ManuallyRouted="false" />
+        <AssociationConnector Association="MobiRward.Service.Model.FK_dbo_Promotions_dbo_MasterState_TargetStateId" ManuallyRouted="false" />
+        <AssociationConnector Association="MobiRward.Service.Model.fk_RoleId" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

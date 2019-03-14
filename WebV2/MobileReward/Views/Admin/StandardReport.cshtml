@@ -1,0 +1,217 @@
+﻿@model MobileReward.ReportsForms.StandardReportModel
+@{
+    Layout = "~/Views/Shared/_SubLayout.cshtml";
+    ViewBag.Title = "StandardReport";
+}
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+
+        $('#accounts').click(function () {
+            debugger;
+            var winW = $(window).width() - 15;
+            var winH = $(window).height() - 15;
+            var userId = $("#ddlMerchants option:selected").val();
+            var promotionId = $("#ddlPromotions option:selected").val();
+            var StartDate = $("#txtDateFrom").val();
+            var EndDate = $("#txtDateTo").val();
+
+            if ($('#chkisPaid').attr('checked')) {
+                var isPaid = true;
+            }
+            else {
+                var isPaid = false;
+            }
+
+            if ($('#chkIsApproved').attr('checked')) {
+                var isApproved = true;
+            }
+            else {
+                var isApproved = false;
+            }
+
+            if ($('#chkIsStop').attr('checked')) {
+                var isStop = true;
+            }
+            else {
+                var isStop = false;
+            }
+
+            $.ajax({
+                url: '../../Admin/StandardReport',
+                data: JSON.stringify({
+                    userId: userId, promotionId: promotionId, isPaid: isPaid, isApproved: isApproved, isStop: isStop
+                    , StartDate: StartDate, EndDate: EndDate
+                }),
+                type: 'POST',
+                contentType: 'application/json;',
+                dataType: 'json',
+                async: false,
+                success: function (response) {
+                    debugger;
+                    $('#error').hide();
+                    var v = response;
+                    debugger;
+                    if (v == "1") {
+                        $('#reportData').attr('src', '/ReportsForms/StandardReports.aspx');
+                        $("#Dialog").dialog({
+                            position: { my: "center", at: "center", of: "center" },
+                            top: 30,
+                            left: 50,
+                            width: winW,
+                            height: winH,
+                            modal: true,
+                            title: 'Report'
+                        });
+                        return false;
+                    }
+                    else {
+                        $('#Dialog').hide();
+                        //$('#reportData').hide();
+                        $('#error').show();
+                        return false;
+                    }
+                }
+            });
+        });
+
+    });
+</script>
+
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#ddlversion").empty();
+        $("#btDownload").hide();
+
+        $(function () {
+            // $('#ddlversion').attr('disabled', true);
+            $('#ddlMerchants').change(function () {
+                debugger;
+                $("#ddlversion").empty();
+                var MerchantId = $(this).val();
+                $.ajax({
+                    url: '/Admin/GetPromotions',
+                    type: 'POST',
+                    data: JSON.stringify({ MerchantId: MerchantId }),
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function (data) {
+                        debugger;
+                        $('#ddlversion').attr('disabled', false);
+                        var items = "<option>---Select Promotion---</option>";
+                        $("#btDownload").hide();
+                        $.each(data, function (i, data) {
+                            items += "<option value=" + data.PromotionId + ">" + data.PromotionName + "</option>";
+                            $("#btDownload").show();
+                        });
+                        $("#ddlPromotions").html(items);
+                    }
+                });
+            });
+        });
+    });
+    
+    $(document).ready(function () {
+        $(function () {
+            $("#txtDateFrom").val("");
+            $("#txtDateTo").val("");
+            showToDate(new Date());
+            // showDropdownList();
+            //  changeDropdown();
+            //Bind Date
+            $("#txtDateFrom").datepicker({
+                showOn: "button",
+                buttonImage: "/images/calander.JPG",
+                buttonImageOnly: true,
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'dd-M-yy',
+              //  minDate: 0,
+                onSelect: function (selected) {
+                    $("#txtDateTo").datepicker("option", "minDate", selected);
+                },
+                onClose: function (dateText, inst) {
+                    $("#txtDateTo").focus();
+                }
+            });
+
+            function showToDate() {
+                $("#txtDateTo").datepicker({
+                    showOn: "button",
+                    buttonImage: "/images/calander.JPG",
+                    buttonImageOnly: true,
+                    changeMonth: true,
+                    changeYear: true,
+                    minDate: 0,
+                    dateFormat: 'dd-M-yy',
+                });
+            }
+        });
+    });
+</script>
+
+
+<div class="right_side_box">
+    <h1 style="font-size: 15px; padding-left: 16px;">Merchant Report</h1>
+    <div class="right_side_innerbox" style="text-align: left; padding-left: 5px;" data-bind="with: $root">
+        <div class="p_header_text">
+            Merchant Name
+                    
+        </div>
+        <div class="p_header_box">
+            @Html.DropDownListFor(m => m.UserId, (IEnumerable<SelectListItem>)ViewBag.Merchants, "---Select Merchant---", new { @class = "drop", id = "ddlMerchants" })
+        </div>
+
+
+        <div class="p_header_text">
+            Promotion Name
+        </div>
+        <div class="p_header_box">
+            @Html.DropDownListFor(m => m.PromotionId, (IEnumerable<SelectListItem>)ViewBag.Promotions, "---Select Promotion---", new { @class = "drop", id = "ddlPromotions" })
+        </div>
+
+
+        <div class="p_header_text">
+            Start Date
+        </div>
+        <div class="p_header_box">
+            @Html.TextBoxFor(model => model.DateStart, new { @class = "date drop-text", id = "txtDateFrom" })
+        </div>
+        <div class="p_header_text" style="vertical-align: top">
+            End Date
+        </div>
+        <div class="p_header_box">
+            @Html.TextBoxFor(model => model.DateEnd, new { @class = "date drop-text", id = "txtDateTo" })
+        </div>
+        <div class="p_header_box new_sty" style="margin-left: -5%">
+            @Html.CheckBoxFor(m => m.IsPaid, new { id = "chkisPaid" })
+            <label class="lab">Paid</label>
+            @Html.CheckBoxFor(m => m.IsApproved, new { id = "chkIsApproved" })
+            <label class="lab">Approved</label>
+            @Html.CheckBox("IsStop", Model.IsStop, new { id = "chkIsStop" })
+            <label class="lab">Stop</label>
+       
+        
+        <div class="new-button-cs">
+            <input type="button" id="accounts" value="Show Report" class="acc button_account-new"  />
+        </div>
+
+             </div>
+        
+        <div style="clear:both;"></div>
+        <div id="Dialog" style="display: none; min-height: 600px; width: 98%">
+            <iframe id="reportData" height="95%" style="border: 0px; width: 98%"></iframe>
+        </div>
+        <div id="error" class="show-error" style="display: none; margin-top: 18%; margin-left: 22%">No records found!!!</div>
+
+        <br />
+        <br />
+    </div>
+    <div class="clear"></div>
+</div>

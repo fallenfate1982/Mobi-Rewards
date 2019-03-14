@@ -1,0 +1,120 @@
+﻿@model MobileReward.Models.PromotionsCoupon
+@{
+    ViewBag.Title = "PromotionCouponDetails";
+    Layout = "~/Views/Shared/_SubLayout.cshtml";
+}
+
+<div class="right_side_box">
+    <h1 style="font-size: 15px; padding-left: 16px;">Coupon Detail</h1>
+    <div class="right_side_innerbox">
+        <div class="p_header"><span>Coupon Information</span></div>
+        <div>
+            <table cellpadding="2" cellspacing="8" class="details">
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    <div>
+                                        <table style="width: 425px; height: 170px;">
+                                            <tr>
+                                                <td style="width: 197px;"><strong>Coupon Name</strong></td>
+                                                <td>@Model.CouponName</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 197px;"><strong>Coupon Title</strong></td>
+                                                <td>@Model.CouponTitle</td>
+                                            </tr>
+                                            @*<tr>
+                                                <td  style="width: 197px;"><strong>Promotion Name</strong></td>
+                                                <td>@Model.PromotionName</td>
+                                            </tr>*@
+                                          @*  <tr>
+                                                <td style="width: 197px;"><strong>Start Date</strong></td>
+                                                <td>@Convert.ToDateTime(Model.DateStart).ToString("dd-MMM-yyyy")</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 197px;"><strong>End Date</strong></td>
+                                                <td>@Convert.ToDateTime(Model.DateEnd).ToString("dd-MMM-yyyy")</td>
+                                            </tr>*@
+                                        </table>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <table>
+                                            <tr>
+                                                <td style="text-align: center; width: 275px;"><span><strong>
+                                                @*    <a target="_blank" href="http://chart.apis.google.com/chart?cht=qr&chs=145x145&chl=@Model.QRCode&chld=H|0">@Model.QRCode)</a>*@
+                                                </strong></span>
+                                                    <br />
+                                                    <img src="http://chart.apis.google.com/chart?cht=qr&chs=145x145&chl=@Model.QRCode&chld=H|0"/></td>
+                                            </tr>
+                                        </table>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <td style="width: 197px;"><strong>Description</strong></td>
+                                            <td>@MobiReward.Common.TextHelper.CutText(@Model.CouponDescription, 250)
+                                                @*@Model.CouponDescription*@</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 197px;"><strong>Term & Descriptions</strong></td>
+                                            <td>@MobiReward.Common.TextHelper.CutText(@Model.TermsAndCondition, 250)
+                                                @*@Model.TermsAndCondition*@</td>
+                                        </tr>
+                                    </table>
+                                </td>
+
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td colspan="2"></td>
+                </tr>
+            </table>
+            <div class="clear">&nbsp;</div>
+            <div class="p_header"><span>Redemption Details</span></div>
+            <table cellpadding="2" cellspacing="8" class="details">
+                <tr>
+                    <td width="40%"><strong>Redemption Limit</strong></td>
+                    <td>@Model.RedemptionLimit</td>
+                </tr>
+
+                <tr>
+                    <td><strong>Redeemed</strong></td>
+                    <td>@Model.Redeemed</td>
+                </tr>
+
+                <tr>
+                    <td><strong>Coupon File</strong></td>
+                    <td>
+                        <img src= "/UserFiles/Promotions/Coupons/@Url.Content(Model == null || Model.CouponImageName == null ? "nopic.jpg" : Model.CouponImageName)" alt="Image"  style="width:260px;height:156px">
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Barcode File</strong></td>
+                    <td>
+                        <img src= "/UserFiles/BarCodes/@Url.Content(Model == null || Model.BarCodeImageName == null ? "nopic.jpg" : Model.BarCodeImageName)" alt="Image"  style="width:260px;height:156px">
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="clear">&nbsp;</div>
+    </div>
+</div>
+

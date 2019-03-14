@@ -1,0 +1,80 @@
+﻿@using MobiReward.Common
+@model IList<MobileReward.Models.PromotionsCoupon>
+@{
+    ViewBag.Title = "Promotion Coupons";
+    Layout = "~/Views/Shared/_SubLayout.cshtml";
+}
+
+@using (Html.BeginForm("PromotionCouponList", "Merchant", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    
+    <div class="right_side_box">
+        <h1 style="font-size: 15px; padding-left: 16px;">Coupons</h1>
+        <div style="text-align: right; padding-right: 18px">
+            <input type="text" name="keyword" style="width: 300px; height: 30px" />
+            &nbsp; 
+            <input type="text" name="promotionId" value="@ViewBag.PromotionId" style="display:none" />
+            <input type="submit" value="Search" id="btnSubmit" class="user_promotion" style="width: 80px; background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #2085e4),color-stop(1, #0456a4)); border-radius: 5px; border: 1px solid #06447e;" />
+          &nbsp&nbsp <input type="submit" value="Reset" id="btnReset" name="command" class="user_promotion" style="width: 80px; background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #2085e4),color-stop(1, #0456a4)); background-image: -moz-linear-gradient(center top , #2085E4, #0456A4); border-radius: 5px; border: 1px solid #06447e;" />
+        </div>
+
+        @if (Model == null || Model.Count == 0)
+        {
+            <h3>No record found!</h3>
+        }
+        @foreach (var p in @Model)
+        {        
+            <div class="user_promotion_box">
+
+                <div class="promotions_box" id="list">
+                    <p data-bind="text : PromotionTitle">
+                        <label style="color: #0f0f0f;">Title:  </label>@p.CouponTitle</p>
+                    <span data-bind="text : PromotionName">
+                        <label style="color: #0f0f0f;">Name:  </label>@p.CouponName</span>
+                    @*<span style="float: right; padding-right: 10px; color: #0f0f0f;">Barcode number:   @p.BarCodeImageName</span>*@
+                    <div class="clear"></div>
+                    <span>
+                        <label style="color: #0f0f0f;">Redemption Limit:</label>&nbsp;&nbsp;&nbsp; @Convert.ToInt64(@p.RedemptionLimit)</span>
+                  @*  <span style="float: right; padding-right: 10px; color: #0f0f0f;">Redemption Limit:  @Convert.ToInt64(@p.RedemptionLimit)</span>*@
+                    <div class="clear"></div>
+                    <span>
+                        <label style="color: #0f0f0f;">Redeemed:</label>&nbsp;&nbsp;&nbsp; @Convert.ToInt32(@p.Redeemed) </span>
+                @*    <span style="float: right; padding-right: 10px; color: #0f0f0f;">Redeemed:  @Convert.ToInt32(@p.Redeemed)  </span>*@
+                    <div class="clear"></div>
+
+                    <span style="text-align: left">
+                        <label style="color: #0f0f0f;">Descriptions</label>&nbsp;&nbsp;&nbsp;
+                        @TextHelper.CutText(@p.CouponDescription, 250)</span>
+                    <div class="clear"></div>
+                    <span style="text-align: left">
+                        <label style="color: #0f0f0f;">Term & Conditions</label>&nbsp;&nbsp;&nbsp;
+                        @TextHelper.CutText(@p.TermsAndCondition, 250)</span>
+
+                </div>
+                <div class="clear">&nbsp;</div>
+                <div>
+                    <a href="@Url.Action("PromotionCouponDetails", "Merchant", new { couponid = @p.CouponId })">
+                        <div class="user_promotion" id="promotion_button">Details</div>
+
+                    </a>
+
+                    @if (@p.Promotions.IsApproved == false && @p.Promotions.IsStop == false)
+                    {
+                        if (User.IsInRole("Merchant"))
+                        {
+                        <a href="@Url.Action("PromotionCouponsEdit", "Merchant", new { couponid = @p.CouponId })">
+                            <div class="user_promotion" id="promotion_button">Edit</div>
+                        </a>
+                        }
+                    }
+                </div>
+                <div class="clear">&nbsp;</div>
+            </div>
+        }
+          <br />
+       
+        <div class="clear"></div>
+    </div>
+}
+
+ 

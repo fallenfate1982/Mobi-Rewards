@@ -1,0 +1,34 @@
+﻿<div class="smedia_ul">
+    @if (User.Identity.IsAuthenticated)
+{       
+    <ul class="user_name">
+        <li>Welcome to <b>@User.Identity.Name.ToLower()</b></li>
+        <li>
+            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+            {
+                @Html.AntiForgeryToken()
+                <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+            }
+        </li>
+    </ul>    
+}
+    <br />
+    <ul>
+        <li><a href="#">
+            <img src="/images/twitter.PNG" /></a></li>
+        <li><a href="#">
+            <img src="/images/facebook.PNG" /></a></li>
+        <li><a href="#">
+            <img src="/images/linkdin.PNG" /></a></li>
+        <li><a href="#">
+            <img src="/images/rssfeed.PNG" /></a></li>
+    </ul>
+</div>
+@*<div class="smedia_follow">
+    <ul>
+        <li><a href="#">
+            <img src="/images/smfollow1.png" /></a></li>
+        <li style="padding-right: 0px;"><a href="#">
+            <img src="/images/smfollow2.png" /></a></li>
+    </ul>
+</div>*@

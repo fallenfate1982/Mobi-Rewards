@@ -1,0 +1,78 @@
+﻿@{    
+    ViewBag.Title = "Mobie Rewards | Home ";
+}
+<!-- Contents start here-->
+<div class="content_left">
+    <div style="margin-top: 90px;"><span class="welcome">WELCOME TO OUR COMPANY</span></div>
+    @if (User.Identity.IsAuthenticated)
+    {
+    <div id="authenticatedMessage">
+        <span style="height:20px;"></span>
+        <p style="text-align:left;" class="botton_text">Introducing MobiRewards system, where you can earn points from your MobiRewards’s Best purchases and redeem them for great discounts and prizes.
+            Simply use your home computer, smartphone, or other mobile device to sign up for the program, then check in at your local MobiRewards’s Best retailer on your home computer, 
+            then enter your MobiRewards’s Best purchases, and redeem your points for things like:</p>        
+    </div>
+    }
+    else
+    {
+    <div class="button_box">
+        <div class="signin_btn">
+            <span class="botton_text">Existing user sign in here</span>
+            <a href='@Url.Action("Login", "Account")'>
+                <div class="button" id="signin">Sign in</div>
+
+            </a>
+        </div>
+
+        <div class="button_line">
+            <img src="/images/line.jpg" /></div>
+        <div class="register_btn">
+            <span class="botton_text">If you are not a member please Register here</span>
+            <a href='@Url.Action("Register", "Account")'>
+                <div class="button" id="register">Register</div>
+            </a>
+        </div>
+    </div>
+    }
+    
+</div>
+<!-- Slider start here-->
+
+<div class="content_right">
+    <!--<img src="images/slide.JPG" />-->
+    <div id="page">
+        <div id="gallery">
+            <div id="panel">
+                <img id="largeImage" src="/Images/sliderimages/image_01_large.jpg" width="420" height="332" style="margin: 2px" />
+            </div>
+            <div id="thumbs">
+                <img src="/Images/sliderimages/image_01_thumb.jpg" alt="1st image description" width="54" />
+                <img src="/Images/sliderimages/image_02_thumb.jpg" alt="2nd image description" width="54" />
+                <img src="/Images/sliderimages/image_03_thumb.jpg" alt="3rd image description" width="54" />
+                <img src="/Images/sliderimages/image_04_thumb.jpg" alt="4th image description" width="54" />
+                <img src="/Images/sliderimages/image_05_thumb.jpg" alt="5th image description" width="54" />
+                <img src="/Images/sliderimages/image_06_thumb.jpg" alt="6th image description" width="54" />
+                <img src="/Images/sliderimages/image_07_thumb.jpg" alt="7th image description" width="54" style="margin-right: 0px;" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@section TopRightPanel
+{
+    @Html.Partial("~/Views/Partial/TopRightPanel.cshtml")
+}
+
+
+@section scripts
+{
+
+    <script>
+        $('#thumbs').delegate('img', 'click', function () {
+            $('#largeImage').attr('src', $(this).attr('src').replace('thumb', 'large'));
+            $('#description').html($(this).attr('alt'));
+        });
+
+    </script>
+
+}

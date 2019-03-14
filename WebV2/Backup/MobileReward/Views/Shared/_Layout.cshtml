@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - Mobi Reward</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    <link href="http://code.jquery.com/ui/1.10.3/themes/start/jquery-ui.css" rel="stylesheet" />
+    
+</head>
+
+<body>
+    <center>
+           <div id="wraper">
+               <div class="header_black">
+                   <div class="fix_width">
+                       <div class="navigation">
+                           <ul>
+                               <li><a href="/"><span style="color: #8dbd38;">HOME</span></a></li>
+                               <li><a href="/home/contact">CONTACT US</a></li>
+                               <li>
+                                   @if (User.Identity.IsAuthenticated)
+                                   {
+                                    <a href='@Url.Action("MyAccount", "Account")'>My Account</a>
+                                   }
+                               </li>
+                           </ul>
+                       </div>
+                   </div>
+               </div>
+               <!-- Gray strip with Logo and smedia bar-->
+               <div class="header_gray">
+                   <div class="fix_width">
+                       <div class="logo">
+                           <img src="/images/logo.png" style="float: left; padding-top: 6px;" />
+                       </div>
+                       <div class="logo_right_panel">                           
+                         @RenderSection("TopRightPanel", required: false)
+                       </div>
+                   </div>
+               </div>
+        
+               <!-- Page Body -->
+               <div class="fix_width">
+                   @RenderBody()
+               </div>
+               <div class="footer_black">
+                    <div class="fix_width" style="margin-top:10px;">
+                           <div class="footer" id="nav">
+                               <p>Navigate</p>
+                               <ul>
+                                  <li><a href="#">Home</a></li>
+                                  <li><a href="#">About us</a></li>
+                                  <li><a href="#">Videos</a></li>
+                                  <li><a href="#">Contact us</a></li>
+                                  </ul>
+                           </div>
+                              <div class="footer" id="support">
+                              <p>SUPPORT</p>
+                               <ul>
+                                  <li><a href="#">Frequently Asked Questions</a></li>
+                                  <li><a href="#">Service Updates</a></li>
+                                  <li><a href="#">Help Desk</a></li>
+                                  <li><a href="#">Validate License</a></li>
+                               </ul>
+                           </div>
+                           <div class="footer" id="other">
+                              <p>OTHER LINKS</p>
+                               <ul>
+                                  
+                                  <li><a href="#">Coupons</a></li>
+                                  <li><a href="#">Blog</a></li>
+                                  <li><a href="#">Newsletter</a></li>
+                               </ul>
+                           </div>
+                              <div class="footer" id="follow">
+                              <p>FOLLOW US ON</p>
+                               <ul>
+                                  
+                                  <li><a href="#">Facebook</a></li>
+                                  <li><a href="#">Twitter</a></li>
+                                  <li><a href="#">Linkdin</a></li>
+                                  <li><a href="#">RSS Feedburner</a></li>
+                                  <li><a href="#">Google Plus</a></li>
+                               </ul>
+                           </div>
+                           <div class="footer" id="contact">
+                              <p>CONTACT US</p>
+                               <ul style="padding-left:0px;">
+                                  
+                                  <li style="list-style:none">ABC address</li>
+                                  <li style="list-style:none">Lane no - 1 ,Lorem ispam loreal example <br /> Address of the company <br /> 1110011</li>
+                               </ul>
+                           </div>
+                           <div class="copyright">
+                            © 2013 MobiRewards. All rights reserved.   <a href="#">Terms of Service</a> |  <a href="#">Privacy Policy</a> |  <a href="#">Content Guidelines</a>
+                          </div>  
+                    </div> 
+                </div>
+           </div>
+    </center>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @RenderSection("scripts", required: false)
+
+     <script type="text/javascript">
+         
+         $(document).ready(function () {
+             var msg = '@TempData["Notification"]';
+             if (msg != "") {
+                 toastr.options = {
+                     "closeButton": false,
+                     "debug": false,
+                     "positionClass": "toast-bottom-right",
+                     "onclick": null,
+                     "showDuration": "300",
+                     "hideDuration": "1000",
+                     "timeOut": "4000",
+                     "extendedTimeOut": "1000",
+                     "showEasing": "swing",
+                     "hideEasing": "linear",
+                     "showMethod": "fadeIn",
+                     "hideMethod": "fadeOut"
+                 }
+                 toastr.info(msg);
+             }
+
+             msg = '@TempData["ErrorNotification"]';
+             if (msg != "") {
+                 toastr.options = {
+                     "closeButton": false,
+                     "debug": false,
+                     "positionClass": "toast-bottom-right",
+                     "onclick": null,
+                     "showDuration": "300",
+                     "hideDuration": "1000",
+                     "timeOut": "4000",
+                     "extendedTimeOut": "1000",
+                     "showEasing": "swing",
+                     "hideEasing": "linear",
+                     "showMethod": "fadeIn",
+                     "hideMethod": "fadeOut"
+                 }
+                 toastr.error(msg);
+             }
+          });
+             
+        </script>
+</body>
+</html>

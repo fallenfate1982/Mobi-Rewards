@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MobiRward.Service.Model" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="MobiRewardsEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="MasterCountries" EntityType="MobiRward.Service.Model.MasterCountry" />
+    <EntitySet Name="MasterStates" EntityType="MobiRward.Service.Model.MasterState" />
+    <EntitySet Name="Promotions" EntityType="MobiRward.Service.Model.Promotion" />
+    <EntitySet Name="UserProfiles" EntityType="MobiRward.Service.Model.UserProfile" />
+    <EntitySet Name="webpages_Membership" EntityType="MobiRward.Service.Model.webpages_Membership" />
+    <EntitySet Name="webpages_OAuthMembership" EntityType="MobiRward.Service.Model.webpages_OAuthMembership" />
+    <EntitySet Name="webpages_Roles" EntityType="MobiRward.Service.Model.webpages_Roles" />
+    <EntitySet Name="webpages_UsersInRoles" EntityType="MobiRward.Service.Model.webpages_UsersInRoles" />
+    <AssociationSet Name="FK_dbo_MasterState_dbo_MasterCountry_CountryId" Association="MobiRward.Service.Model.FK_dbo_MasterState_dbo_MasterCountry_CountryId">
+      <End Role="MasterCountry" EntitySet="MasterCountries" />
+      <End Role="MasterState" EntitySet="MasterStates" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Promotions_dbo_MasterCountry_TargetCountryId" Association="MobiRward.Service.Model.FK_dbo_Promotions_dbo_MasterCountry_TargetCountryId">
+      <End Role="MasterCountry" EntitySet="MasterCountries" />
+      <End Role="Promotions" EntitySet="Promotions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Promotions_dbo_MasterState_TargetStateId" Association="MobiRward.Service.Model.FK_dbo_Promotions_dbo_MasterState_TargetStateId">
+      <End Role="MasterState" EntitySet="MasterStates" />
+      <End Role="Promotions" EntitySet="Promotions" />
+    </AssociationSet>
+    <AssociationSet Name="fk_RoleId" Association="MobiRward.Service.Model.fk_RoleId">
+      <End Role="webpages_Roles" EntitySet="webpages_Roles" />
+      <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="MasterCountry">
+    <Key>
+      <PropertyRef Name="CountryId" />
+    </Key>
+    <Property Name="CountryId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="CountryName" Type="String" Nullable="false" MaxLength="200" Unicode="true" FixedLength="false" />
+    <Property Name="CountryCode" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="MasterStates" Relationship="MobiRward.Service.Model.FK_dbo_MasterState_dbo_MasterCountry_CountryId" FromRole="MasterCountry" ToRole="MasterState" />
+    <NavigationProperty Name="Promotions" Relationship="MobiRward.Service.Model.FK_dbo_Promotions_dbo_MasterCountry_TargetCountryId" FromRole="MasterCountry" ToRole="Promotions" />
+  </EntityType>
+  <EntityType Name="MasterState">
+    <Key>
+      <PropertyRef Name="StateId" />
+    </Key>
+    <Property Name="StateId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="StateName" Type="String" Nullable="false" MaxLength="200" Unicode="true" FixedLength="false" />
+    <Property Name="StateCode" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="CountryId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="MasterCountry" Relationship="MobiRward.Service.Model.FK_dbo_MasterState_dbo_MasterCountry_CountryId" FromRole="MasterState" ToRole="MasterCountry" />
+    <NavigationProperty Name="Promotions" Relationship="MobiRward.Service.Model.FK_dbo_Promotions_dbo_MasterState_TargetStateId" FromRole="MasterState" ToRole="Promotions" />
+  </EntityType>
+  <EntityType Name="Promotion">
+    <Key>
+      <PropertyRef Name="PromotionId" />
+    </Key>
+    <Property Name="PromotionId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="AdvertisementName" Type="String" Nullable="false" MaxLength="200" Unicode="true" FixedLength="false" />
+    <Property Name="PromotionName" Type="String" Nullable="false" MaxLength="200" Unicode="true" FixedLength="false" />
+    <Property Name="PromotionTitle" Type="String" Nullable="false" MaxLength="200" Unicode="true" FixedLength="false" />
+    <Property Name="PromotionDescription" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="DateStart" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DateEnd" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="RedemptionLimit" Type="Int16" Nullable="false" />
+    <Property Name="BarCodeNumber" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="FilePath" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="TargetCountryId" Type="Int32" />
+    <Property Name="TargetStateId" Type="Int32" />
+    <Property Name="IsGlobal" Type="Boolean" Nullable="false" />
+    <Property Name="Status" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+    <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdateBy" Type="Int32" Nullable="false" />
+    <Property Name="UpdateOn" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IsApproved" Type="Boolean" Nullable="false" />
+    <Property Name="Ispaid" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="MasterCountry" Relationship="MobiRward.Service.Model.FK_dbo_Promotions_dbo_MasterCountry_TargetCountryId" FromRole="Promotions" ToRole="MasterCountry" />
+    <NavigationProperty Name="MasterState" Relationship="MobiRward.Service.Model.FK_dbo_Promotions_dbo_MasterState_TargetStateId" FromRole="Promotions" ToRole="MasterState" />
+  </EntityType>
+  <EntityType Name="UserProfile">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="FirstName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
+    <Property Name="CompanyRegistrationNo" Type="String" Nullable="false" MaxLength="300" Unicode="true" FixedLength="false" />
+    <Property Name="Address" Type="String" Nullable="false" MaxLength="1000" Unicode="true" FixedLength="false" />
+    <Property Name="ContactNo" Type="String" Nullable="false" MaxLength="1000" Unicode="true" FixedLength="false" />
+    <Property Name="UpdateBy" Type="Int32" />
+    <Property Name="UpdateOn" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="webpages_Membership">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="ConfirmationToken" Type="String" MaxLength="128" Unicode="true" FixedLength="false" />
+    <Property Name="IsConfirmed" Type="Boolean" />
+    <Property Name="LastPasswordFailureDate" Type="DateTime" Precision="3" />
+    <Property Name="PasswordFailuresSinceLastSuccess" Type="Int32" Nullable="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+    <Property Name="PasswordChangedDate" Type="DateTime" Precision="3" />
+    <Property Name="PasswordSalt" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+    <Property Name="PasswordVerificationToken" Type="String" MaxLength="128" Unicode="true" FixedLength="false" />
+    <Property Name="PasswordVerificationTokenExpirationDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="webpages_OAuthMembership">
+    <Key>
+      <PropertyRef Name="Provider" />
+      <PropertyRef Name="ProviderUserId" />
+    </Key>
+    <Property Name="Provider" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
+    <Property Name="ProviderUserId" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="webpages_Roles">
+    <Key>
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="RoleId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="RoleName" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="webpages_UsersInRoles" Relationship="MobiRward.Service.Model.fk_RoleId" FromRole="webpages_Roles" ToRole="webpages_UsersInRoles" />
+  </EntityType>
+  <EntityType Name="webpages_UsersInRoles">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="RoleId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="webpages_Roles" Relationship="MobiRward.Service.Model.fk_RoleId" FromRole="webpages_UsersInRoles" ToRole="webpages_Roles" />
+  </EntityType>
+  <Association Name="FK_dbo_MasterState_dbo_MasterCountry_CountryId">
+    <End Role="MasterCountry" Type="MobiRward.Service.Model.MasterCountry" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="MasterState" Type="MobiRward.Service.Model.MasterState" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterCountry">
+        <PropertyRef Name="CountryId" />
+      </Principal>
+      <Dependent Role="MasterState">
+        <PropertyRef Name="CountryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Promotions_dbo_MasterCountry_TargetCountryId">
+    <End Role="MasterCountry" Type="MobiRward.Service.Model.MasterCountry" Multiplicity="0..1" />
+    <End Role="Promotions" Type="MobiRward.Service.Model.Promotion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterCountry">
+        <PropertyRef Name="CountryId" />
+      </Principal>
+      <Dependent Role="Promotions">
+        <PropertyRef Name="TargetCountryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Promotions_dbo_MasterState_TargetStateId">
+    <End Role="MasterState" Type="MobiRward.Service.Model.MasterState" Multiplicity="0..1" />
+    <End Role="Promotions" Type="MobiRward.Service.Model.Promotion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MasterState">
+        <PropertyRef Name="StateId" />
+      </Principal>
+      <Dependent Role="Promotions">
+        <PropertyRef Name="TargetStateId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_RoleId">
+    <End Role="webpages_Roles" Type="MobiRward.Service.Model.webpages_Roles" Multiplicity="1" />
+    <End Role="webpages_UsersInRoles" Type="MobiRward.Service.Model.webpages_UsersInRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="webpages_Roles">
+        <PropertyRef Name="RoleId" />
+      </Principal>
+      <Dependent Role="webpages_UsersInRoles">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

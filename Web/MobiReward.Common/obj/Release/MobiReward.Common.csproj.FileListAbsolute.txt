@@ -1,0 +1,4 @@
+E:\Parwej\MobileReward\MobiReward.Common\bin\Release\MobiReward.Common.dll
+E:\Parwej\MobileReward\MobiReward.Common\bin\Release\MobiReward.Common.pdb
+E:\Parwej\MobileReward\MobiReward.Common\obj\Release\MobiReward.Common.dll
+E:\Parwej\MobileReward\MobiReward.Common\obj\Release\MobiReward.Common.pdb

@@ -1,0 +1,57 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section TopRightPanel
+{
+    <div class="user_name">
+        <ul>
+            <li>Welcome <b>@User.Identity.Name</b></li>
+            <li>
+                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+                }
+            </li>
+        </ul>
+    </div>
+}
+
+<div id="account_box">
+    <h1>My Account</h1>
+    <div style="margin-top: 30px;">
+        <div class="left_side">
+            <div class="left_nav">
+                <ul>
+                    <li><a href='@Url.Action("Dashboard", User.IsInRole("Admin") ? "Admin" : "Merchant")'>Dashboard</a></li>
+                    <li><a href='@Url.Action("MyAccount", "Account")'>My Account</a></li>
+                    @if (@User.IsInRole("Merchant"))
+                    {
+                        <li><a href="@Url.Action("PromotionList", "Merchant")">My Promotions</a></li>   
+                        <li><a href='@Url.Action("PromotionEdit", "Merchant")'>Create Promotion</a></li>
+                        <li><a href='@Url.Action("PromotionCouponsEdit", "Merchant")'>Create Coupons</a></li>
+                    }
+
+                    @if (User.IsInRole("Admin"))
+                    {                        
+                        <li><a href='@Url.Action("Users", "Admin")'>Users List</a></li>
+                        <li><a href='@Url.Action("AdminPromotionList", "Admin")'>Promotions</a></li>@*                        
+                        <li><a href='@Url.Action("Reports", "Admin")'>Reports</a></li>*@
+                        <li><a href='@Url.Action("StandardReport", "Admin")'>Merchant Reports</a></li>
+                    }
+                </ul>
+
+            </div>
+        </div>
+        <div class="right_side">
+            @RenderBody()
+        </div>
+        <div class="clear" style="height: 80px;">&nbsp;</div>
+    </div>
+</div>
+
+@section scripts
+{
+    @RenderSection("scripts", required: false)
+}

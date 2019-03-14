@@ -1,0 +1,25 @@
+<ion-header-bar class="bar-positive nav-title-slide-ios7">
+    <a class="button icon-left ion-chevron-left button-clear bar-positive" ng-click="back()"></a>
+    <h1 class="title">Coupons</h1>
+</ion-header-bar>
+<ion-view>
+    <ion-content has-footer="true" has-tabs="true">      
+        <div class="list c-list">
+            <div class="" ng-repeat="c in coupons" >
+                <a class="item item-thumbnail-left" ng-class="isGrabbed({{c.CouponId}})" href="#/coupons-detail/{{c.CouponId}}">
+                    <img src="{{domain}}UserFiles/Promotions/Coupons/{{c.CouponImageName || 'nopic.jpg'}}">
+                    <h2>{{c.CouponTitle}}</h2>
+                    <p>{{c.CouponDescription}}</p>
+                    <p><small>Date Expire - {{c.DateEnd | date : 'dd-MMM-yy'}}</small></p>
+                </a>    
+            </div>
+             <div ng-show="coupons.length == 0" class="item padding">
+                <p>No coupons found!!!</p>
+            </div>
+            <div >                    
+                <a class="item item-thumbnail-left noborder" >                     
+                    </a>                    
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

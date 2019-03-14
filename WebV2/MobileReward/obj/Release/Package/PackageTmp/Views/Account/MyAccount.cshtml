@@ -1,0 +1,39 @@
+﻿@model MobileReward.Models.UserProfile
+
+@{
+    Layout = "~/Views/Shared/_SubLayout.cshtml";
+    ViewBag.Title = "My Account";
+}
+<div class="right_side_box" id="divDetails">
+    <h1 style="font-size: 15px; padding-left: 16px;">Personal Details</h1>
+    <div class="right_side_innerbox" >
+        <div class="box_table">
+            <div class="table_text_account">Name:</div>
+            <div class="table_text_account"><span class="myaccount_name">@Model.FirstName @Model.LastName&nbsp;</span></div>
+            
+            <div class="table_text_account">Company Registration Number:</div>
+            <div class="table_text_account"><span class="myaccount">@Model.CompanyRegistrationNo&nbsp;</span></div>
+            <br/>
+            <div class="table_text_account">Email Address:</div>
+            <div class="table_text_account"><span class="myaccount">@Model.Email&nbsp;</span></div>
+            <br/>
+            <div class="table_text_account">Address:</div>
+            <div class="table_text_account">
+                <span class="myaccount">
+                    @Model.Address&nbsp;
+                </span>
+            </div>
+            <br/>
+            <div class="table_text_account">Contact Number:</div>
+            <div class="table_text_account"><span class="myaccount">@Model.ContactNo&nbsp;</span></div>
+            <div class="clear">&nbsp;</div>
+        </div>
+    </div>
+    <div class="right_side_innerbox">
+        <ul class="account_ul">
+            <li><a href='@Url.Action("ProfileEdit", "Account")'>Edit your account information</a></li>
+            <li><a href="@Url.Action("Manage", "Account")">Change your Password</a></li>
+        </ul>
+    </div>
+</div>
+<div class="clear">&nbsp;</div>

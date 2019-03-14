@@ -1,0 +1,182 @@
+﻿@using MobiReward.Common
+@using MobileReward.Models;
+@model IList<MobileReward.Models.Promotion>
+@{
+    
+    Layout = "~/Views/Shared/_SubLayout.cshtml";
+    ViewBag.Title = "Promotion List";
+    MobileReward.Models.MobiRewardDb db = new MobileReward.Models.MobiRewardDb();
+}
+
+@using (Html.BeginForm("PromotionList", "Merchant", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    
+    <div class="right_side_box">
+        <h1 style="font-size: 15px; padding-left: 16px;">Promotions</h1>
+        <div style="text-align: right; padding-right: 18px">
+            <input type="text" name="keyword" style="width: 300px; height: 30px" />
+            &nbsp; 
+            <input type="submit" value="Search" id="btnSubmit" class="user_promotion" style="width: 80px; background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #2085e4),color-stop(1, #0456a4)); border-radius: 5px; border: 1px solid #06447e;" />
+             &nbsp&nbsp <input type="submit" value="Reset" id="btnReset" name="command" class="user_promotion" style="width: 80px; background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #2085e4),color-stop(1, #0456a4)); background-image: -moz-linear-gradient(center top , #2085E4, #0456A4); border-radius: 5px; border: 1px solid #06447e;" />
+        </div>
+
+        @if (Model == null || Model.Count == 0)
+        {
+            <h3>No record found!</h3>
+        }
+        @foreach (var p in @Model)
+        {        
+            <div class="user_promotion_box">
+
+                <div class="promotions_box" id="list">
+                    <p data-bind="text : PromotionTitle">
+                        <label style="color: #0f0f0f;">Title: </label>@p.PromotionTitle
+                    </p>
+                    <span data-bind="text : PromotionName">
+                        <label style="color: #0f0f0f;">Name: </label>
+                        @p.PromotionName</span>
+                    <div class="clear"></div>
+                    @if (@p.PromotionId != null)
+                    {
+                        int count = db.PromotionsCoupon.Where(x => x.PromotionId == @p.PromotionId).Count();
+                        <span data-bind="text : PromotionName">
+                            <label style="color: #0f0f0f;">Total Coupons: </label>
+                            @count</span>
+                    }
+                    <div class="clear"></div>
+
+                    <span data-bind="text : PromotionName">
+                        <label style="color: #0f0f0f;">Approved: </label>
+                        @p.IsApproved</span>
+                    @*<span style="float: right; padding-right: 10px; color: #0f0f0f;">Barcode number:   @p.BarCodeNumber</span>*@
+                    <div class="clear"></div>
+                    <span>
+                        <label style="color: #0f0f0f;">Start Date</label>&nbsp;&nbsp;&nbsp;@Convert.ToDateTime(p.DateStart).ToString("dd-MMM-yyyy")</span>
+                    <span>
+                        <label style="color: #0f0f0f;">End Date</label>&nbsp;&nbsp;&nbsp;@Convert.ToDateTime(p.DateEnd).ToString("dd-MMM-yyyy")</span>
+                    @*<span style="float: right; padding-right: 10px; color: #0f0f0f;">Redemption Limit:  @Convert.ToInt64(@p.RedemptionLimit)</span>*@
+                    <div class="clear"></div>
+
+                    @if (p.TargetCountryId != null && p.TargetCountryId > 0 && p.MasterCountry != null)
+                    {
+                        <span>Country:  &nbsp;&nbsp;&nbsp;@p.MasterCountry.CountryName</span>    
+                    }
+                    else
+                    {
+                        <span>Global:&nbsp;&nbsp;&nbsp;true</span>                
+                    }
+                    @*<span style="float: right; padding-right: 10px; color: #0f0f0f;">Grabbed:  @Convert.ToInt32(@p.Grabbed)  </span>*@
+                    <div class="clear"></div>
+                    <span style="text-align: left">
+                        <label style="color: #0f0f0f;">Desc: </label>
+                        @TextHelper.CutText(@p.PromotionDescription, 250)</span>
+
+                </div>
+                <div class="clear">&nbsp;</div>
+                <div>
+                    <a href="@Url.Action("PromotionCouponList", "Merchant", new { promotionid = @p.PromotionId })">
+                        <div class="user_promotion" id="promotion_button" style="width: 125px;">View Coupons</div>
+                    </a>
+                    <a href="@Url.Action("PromotionDetails", "Merchant", new { promotionid = @p.PromotionId })">
+                        <div class="user_promotion" id="promotion_button">Details</div>
+
+                    </a>
+
+                    @if (@p.IsApproved == false && @p.IsStop == false)
+                    {
+                        <a href="@Url.Action("PromotionEdit", "Merchant", new { promotionid = @p.PromotionId })">
+                            <div class="user_promotion" id="promotion_button">Edit</div>
+                        </a>
+                    }
+
+                    @if (@p.IsStop == true)
+                    {
+                        <br />
+                        <label class="show-error" >This Promotion has been Stopped, Please contact Admin.</label>
+                    }
+
+
+                </div>
+                <div class="clear">&nbsp;</div>
+            </div>
+        }
+          <br />
+        <div class="pagination" style="text-align: left; padding-right: 60px;margin-left: 15px;">
+          
+            @*@for (int p=1; p < ViewBag.TotalPage; p++)
+            {
+                <a class="@(p==ViewBag.CurrentPage ?"Current":"")" href="@Url.Action("AdminPromotionList", "Admin",new{Page=p})">@p</a>;
+            }*@
+            @pageLinks() 
+        </div>
+        <div class="clear"></div>
+    </div>
+}
+@helper buildLinks(int start, int end, string innerContent)
+{
+     for (int i = start; i <= end; i++)
+     {
+         <a class="@(i == ViewBag.CurrentPage ? "current" : "")" href="@Url.Action("PromotionList", "Merchant", new { page = i })">@(innerContent ?? i.ToString())</a>  
+     }
+     
+}
+ 
+@helper pageLinks()
+{
+    const int maxPages = 11;
+     
+    if (ViewBag.TotalPages <= maxPages)
+    {
+        @buildLinks(1, (int)ViewBag.TotalPages, null)
+        return;
+    }
+
+    int pagesAfter = ViewBag.TotalPages - ViewBag.CurrentPage; // Number of pages after current
+    int pagesBefore = ViewBag.CurrentPage - 1; // Number of pages before current
+ 
+    if (pagesAfter <= 4)
+    {
+        @buildLinks(1, 1, null) // Show 1st page
+ 
+        int pageSubset = ViewBag.TotalPages - maxPages - 1 > 1 ? ViewBag.TotalPages - maxPages - 1 : 2;
+        @buildLinks(pageSubset, pageSubset, "...") // Show page subset (...)
+ 
+        @buildLinks(ViewBag.TotalPages - maxPages + 3, ViewBag.TotalPages, null) // Show last pages
+ 
+        return; // Exit
+    }
+ 
+    if (pagesBefore <= 4)
+    {
+       @buildLinks(1, maxPages - 2, null) // Show 1st pages
+ 
+ 
+       int pageSubset = maxPages + 2 < ViewBag.TotalPages ? maxPages + 2 : ViewBag.TotalPages - 1;
+       @buildLinks(pageSubset, pageSubset, "...") // Show page subset (...)
+ 
+       @buildLinks(ViewBag.TotalPages, ViewBag.TotalPages, null) // Show last page
+ 
+        return; // Exit
+ 
+    }
+ 
+    if (pagesAfter > 4)
+    {
+        @buildLinks(1, 1, null) // Show 1st pages
+ 
+        int pageSubset1 = ViewBag.CurrentPage - 7 > 1 ? ViewBag.CurrentPage - 7 : 2;
+        int pageSubset2 = ViewBag.CurrentPage + 7 < ViewBag.TotalPages ? ViewBag.CurrentPage + 7 : ViewBag.TotalPages - 1;
+ 
+        @buildLinks(pageSubset1, pageSubset1, pageSubset1 == ViewBag.CurrentPage - 4 ? null : "...") // Show 1st page subset (...)
+ 
+        @buildLinks(ViewBag.CurrentPage - 3, ViewBag.CurrentPage + 3, null) // Show middle pages
+ 
+        // Show 2nd page subset (...)
+        // only show ... if page is contigous to the previous one.
+        @buildLinks(pageSubset2, pageSubset2, pageSubset2 ==  ViewBag.CurrentPage + 4 ? null : "...")
+        @buildLinks(ViewBag.TotalPages, ViewBag.TotalPages, null) // Show last page
+ 
+        return; // Exit
+ 
+    }    
+}

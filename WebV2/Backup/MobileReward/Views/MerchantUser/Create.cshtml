@@ -1,0 +1,72 @@
+﻿@model MobileReward.ViewModel.UserViewModel
+
+@{
+    Layout = "~/Views/Shared/_SubLayout.cshtml";
+    ViewBag.Title = "Create";
+}
+
+@using (Html.BeginForm("Create", "MerchantUser"))
+{
+    @Html.AntiForgeryToken()
+    <div class="right_side_box" id="divEdit">
+
+        <h1 style="font-size: 15px; padding-left: 16px;">Create Account</h1>
+        <div class="right_side_innerbox">
+            <div class="box_table">
+                <div class="clear"></div>
+                <div class="table_text">User Name:</div>
+                <div class="table_box">
+                    @Html.TextBoxFor(m => m.UserName)
+                </div>
+                <div class="clear"></div>
+                <div class="table_text">Password:</div>
+                <div class="table_box_pass">
+                    @Html.PasswordFor(m => m.Password)
+                </div>
+
+                <div class="clear"></div>
+                <div class="table_text">Confirm Password:</div>
+                <div class="table_box_pass">
+                    @Html.PasswordFor(m => m.ConfirmPassword)
+                </div>
+                <div class="clear"></div>
+                <div class="table_text">First Name:</div>
+                <div class="table_box">
+                    @Html.TextBoxFor(m => m.FirstName)
+                </div>
+
+                <div class="clear"></div>
+                <div class="table_text">Last Name:</div>
+                <div class="table_box">
+                    @Html.TextBoxFor(m => m.LastName)
+                </div>
+
+                <div class="clear"></div>
+                <div class="table_text">Email Address:</div>
+                <div class="table_box">
+                    @Html.TextBoxFor(m => m.Email)
+                </div>
+
+                <div class="clear">&nbsp;</div>
+                <div class="table_text" style="margin-top: -18px;">Contact Number:</div>
+                <div class="table_box" style="margin-top: -18px;">
+                    @Html.TextBoxFor(m => m.ContactNo, new { @Maxlength = 30 })
+                </div>
+                <div class="clear">&nbsp;@Html.ValidationSummary(false)</div>
+            </div>
+        </div>
+        <div>
+            <input type="reset" value="Reset" class="button_account" id="accounts" />
+            <input type="submit" value="Save" class="button_account" id="accounts" />
+            <div class="clear">&nbsp;</div>
+            @if (@ViewBag.Status != null)
+            {
+                <div class="success">
+                    @ViewBag.Status
+                </div>
+            }
+
+        </div>
+        <div class="clear">&nbsp;</div>
+    </div>
+}

@@ -1,0 +1,33 @@
+﻿@if (Request.IsAuthenticated)
+{
+    <text>
+        Hello, @Html.ActionLink(User.Identity.Name, "ProfileEdit", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Edit Profile" })!
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
+            @Html.AntiForgeryToken()
+            <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+        }
+    </text>
+}
+else
+{
+    <div class="button_box">
+        <div class="signin_btn">
+            <span class="botton_text">Existing user sign in here</span>
+            <div class="button">
+                @Html.ActionLink("Log in", "Login", "Account", new { }, new { id = "signin" })
+            </div>
+        </div>
+        <div class="button_line">
+            <img src="/images/line.jpg" />
+        </div>
+        <div class="register_btn">
+            <span class="botton_text">If you are not a member please Register here</span>
+            <div class="button">
+                @Html.ActionLink("Register", "Register", "Account", new { }, new { id = "register" })
+            </div>
+        </div>
+    </div>
+
+}
+
+

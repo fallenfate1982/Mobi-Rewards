@@ -1,0 +1,130 @@
+﻿@model MobileReward.Models.Promotion
+@{
+    Layout = "~/Views/Shared/_SubLayout.cshtml";
+    ViewBag.Title = "Admin Promotion Update List";
+}
+
+@*<div class="right_side_box">
+    <h1 style="font-size: 15px; padding-left: 16px;">Promotions</h1>*@
+@using (Html.BeginForm("AdminPromotionEdit", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.PromotionId)
+    @Html.HiddenFor(m => m.AdvertisementName)
+    @Html.HiddenFor(m => m.PromotionTitle)
+    @Html.HiddenFor(m => m.PromotionName)
+    @Html.HiddenFor(m => m.PromotionDescription)
+    @Html.HiddenFor(m => m.DateStart)
+    @Html.HiddenFor(m => m.DateEnd)
+    //@Html.HiddenFor(m => m.RedemptionLimit)
+    //@Html.HiddenFor(m => m.BarCodeNumber)
+    @Html.HiddenFor(m => m.FilePath)
+    @Html.HiddenFor(m => m.Status)
+    @Html.HiddenFor(m => m.TargetCountryId)
+    @Html.HiddenFor(m => m.TargetStateId)
+    @Html.HiddenFor(m => m.IsGlobal)
+    
+    <div class="right_side_box">
+        <h1 style="font-size: 15px; padding-left: 16px;">Merchant : @ViewData["userName"]</h1>
+        <div class="right_side_innerbox">
+            <div class="promotions_box">
+                 <span>
+                    <label style="color: #0f0f0f; font-size: 14px;">Title:</label>&nbsp;&nbsp;&nbsp;
+                @Html.DisplayFor(m => m.PromotionTitle)</span>
+               <div class="clear"></div>
+                 <span>
+                    <label style="color: #0f0f0f; font-size: 14px;">Name:</label>&nbsp;&nbsp;&nbsp;
+                @Html.DisplayFor(m => m.PromotionName)</span>
+                <div class="clear"></div>
+                <span>
+                    <label style="color: #0f0f0f; font-size: 14px;">Start Date</label>&nbsp;&nbsp;&nbsp; @Html.DisplayFor(m => m.DateStart)</span>
+                <span>
+                    <label style="color: #0f0f0f; font-size: 14px;">End Date</label>&nbsp;&nbsp;&nbsp; @Html.DisplayFor(m => m.DateEnd)</span>
+                <span style="float: right; padding-right: 10px;">
+                    @*<label style="color: #0f0f0f; font-size: 14px;">Redemption Limit</label>
+                    @Html.DisplayFor(m => m.RedemptionLimit)*@</span>
+                <div class="clear"></div>
+                <span>
+                    @if (@Html.DisplayFor(m => m.TargetCountryId) != null)
+                    {
+                        <label style="color: #0f0f0f; font-size: 14px;">Country:</label>  @Html.DisplayFor(m => m.MasterCountry.CountryName)
+                    }
+                    else if (@Html.DisplayFor(m => m.TargetStateId) != null)
+                    {
+                        <label style="color: #0f0f0f; font-size: 14px;">State:</label>@Html.DisplayFor(m => m.MasterState.StateName)
+                    }
+                    else
+                    {
+                        <label style="color: #0f0f0f; font-size: 14px;">Global:</label> <label>true</label>
+                    }
+                </span>
+               <div class="clear"></div>
+                <span>
+                    <label style="color: #0f0f0f; font-size: 14px;">Payment Received:</label>
+                  @Html.TextBoxFor(m => m.PaymentReceived, new {@onkeypress="javascript:return isNumberKey(event,this,18,2)"})
+                   
+                </span>
+                <div class="clear"></div>
+                <span> <label style="color: #0f0f0f; font-size: 14px;">Description:</label>&nbsp;&nbsp;&nbsp;
+                    @Html.DisplayFor(m => m.PromotionDescription)</span>
+                <div class="clear">&nbsp;</div>
+                <span>
+                    <fieldset>
+                        @Html.CheckBoxFor(m => m.IsPaid)
+                        <label>Paid</label>
+                        @Html.CheckBoxFor(m => m.IsApproved)
+                        <label>Approved</label>
+                       
+                      @*  @Html.CheckBox("IsStop", Model.IsStop.HasValue? Model.IsStop : false)*@
+                       @Html.CheckBox("IsStop", Model.IsStop ?? false)
+                        <label>Stop</label>
+                    </fieldset>
+                </span>
+                <span style="float: right; padding-right: 10px;">
+                    <input type="submit" value="Save" class="button_account" id="accounts" style="width: 100%;" />
+                    <div class="clear">&nbsp;</div>
+                    @if (ViewBag.Status != null)
+                    {
+                        <div class="success">
+                            @ViewBag.Status
+                        </div>
+                    }
+                    @Html.ValidationSummary()
+                </span>
+            </div>
+            <div class="clear">&nbsp;</div>
+        </div>
+
+
+    </div>
+}
+<script type="text/javascript">
+function isNumberKey(evt, ctr, exp, dec) {
+    if (isTextSelected(ctr)) ctr.value = "";
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if (charCode == 46 && ctr.value.indexOf('.') < 0 && Number(dec) > 0)
+        return true;
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    if (ctr.value.indexOf('.') < 0 && String(ctr.value).length == Number(exp))
+        return false;
+    if (ctr.value.indexOf('.') >= 0) {
+        var decindex = ctr.value.indexOf('.');
+        var decstr = String(ctr.value).substr(decindex + 1, ctr.value.length - decindex);
+        if (decstr.length == dec)
+            return false;
+    }
+    return true;
+}
+
+function isTextSelected(input) {
+    if (typeof input.selectionStart == "number") {
+        return input.selectionStart == 0 && input.selectionEnd == input.value.length;
+    }
+    else if (typeof document.selection != "undefined") {
+        input.focus();
+        return document.selection.createRange().text == input.value;
+    }
+}
+ 
+</script>

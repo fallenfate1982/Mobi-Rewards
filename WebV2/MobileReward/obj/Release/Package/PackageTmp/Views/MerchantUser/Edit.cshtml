@@ -1,0 +1,68 @@
+﻿@model MobileReward.ViewModel.EditViewModel
+@{
+    Layout = "~/Views/Shared/_SubLayout.cshtml";
+    ViewBag.Title = "Edit";
+}
+
+@using (Html.BeginForm())
+{
+    if (Model != null)
+    {
+        @Html.HiddenFor(m => m.UserId)
+        <div class="right_side_box" id="divEdit">
+
+            <h1 style="font-size: 15px; padding-left: 16px;">Edit Account</h1>
+            <div class="right_side_innerbox">
+                <div class="box_table">
+                    <div class="clear"></div>
+                    <div class="table_text">Active:</div>
+                    <div class="table_box">
+                        @if (Model.Status == true)
+                        {
+                            @Html.CheckBoxFor(m => m.Status, new { @checked = true, @class = "left_side",@style="margin-top: 16px;" })
+                        }
+                        else
+                        {
+                            @Html.CheckBoxFor(m => m.Status, new { @checked = false, @class = "left_side", @style = "margin-top: 16px;" })
+                        }
+                    </div>
+                    <div class="clear"></div>
+                    <div class="table_text">User Name:</div>
+                    <div class="table_box">
+                        @Html.TextBoxFor(m => m.UserName)
+                    </div>
+                    <div class="clear"></div>
+                    <div class="table_text">First Name:</div>
+                    <div class="table_box">
+                        @Html.TextBoxFor(m => m.FirstName)
+                    </div>
+                    <div class="clear"></div>
+                    <div class="table_text">Last Name:</div>
+                    <div class="table_box">
+                        @Html.TextBoxFor(m => m.LastName)
+                    </div>
+                    <div class="clear"></div>
+                    <div class="table_text">Email Address:</div>
+                    <div class="table_box">
+                        @Html.TextBoxFor(m => m.Email)
+                    </div>
+                    @*<div class="clear">&nbsp;@Html.ValidationSummary(false)</div>*@
+                </div>
+            </div>
+            <div>
+                <input type="reset" value="Reset" class="button_account" id="accounts" />
+                <input type="submit" value="Save" class="button_account" id="accounts" />
+                <div class="clear">&nbsp;</div>
+                @if (@ViewBag.Status != null)
+                {
+                    <div class="success">
+                        @ViewBag.Status
+                    </div>
+                }
+
+            </div>
+            <div class="clear">&nbsp;</div>
+        </div>
+    }
+
+}

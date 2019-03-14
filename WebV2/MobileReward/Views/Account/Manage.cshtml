@@ -1,0 +1,16 @@
+﻿@model MobileReward.Models.LocalPasswordModel
+@{
+    Layout = "~/Views/Shared/_SubLayout.cshtml";
+}
+
+ 
+@if (ViewBag.HasLocalPassword)
+{
+    @Html.Partial("_ChangePasswordPartial")
+}
+else
+{ 
+    @Html.Partial("_SetPasswordPartial")
+}
+
+@Scripts.Render("~/bundles/jqueryval")

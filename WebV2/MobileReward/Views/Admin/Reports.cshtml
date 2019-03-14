@@ -1,0 +1,114 @@
+﻿@{
+    Layout = "~/Views/Shared/_SubLayout.cshtml";
+    ViewBag.Title = "Reports";
+}
+
+<div class="right_side_box">
+    <h1 style="font-size: 15px; padding-left: 16px;">Promotions</h1>
+    <div class="right_side_innerbox" style="text-align:left;padding-left:5px;" data-bind="with: $root">
+        <h3><u>Filter option</u></h3>
+        Keyword <input type="text" data-bind="value: $root.keyword, valueUpdate: 'afterkeydown'"/>
+        &nbsp;&nbsp;&nbsp;
+        Approved Only <input type="checkbox" data-bind="checked: $root.isApproved"/>
+        &nbsp;&nbsp;&nbsp;
+        Paid Only <input type="checkbox" data-bind="checked: $root.isPaid"/>
+        <div class="clear"></div>
+        <br/>
+    </div>
+    <div class="clear"></div>
+    <!-- ko foreach: $root.filteredData -->
+    <div class="right_side_innerbox">
+        <div class="promotions_box">
+            <p><!-- ko text: PromotionTitle --><!-- /ko --></p>
+            <span data-bind="text: PromotionName"></span>
+            <span style="float: right; padding-right: 10px; font-size: 14px; color: #0f0f0f;">
+                Target Country: 
+                <!-- ko if: IsGlobal === true -->
+                    Global
+                <!-- /ko -->
+                <!-- ko if: IsGlobal !== true -->
+                    <!-- ko text: CountryName --><!-- /ko -->
+                <!-- /ko -->
+            </span>
+            <div class="clear"></div>
+            <span>
+                <label style="color: #0f0f0f; font-size: 14px;">Start Date :</label>&nbsp;&nbsp;&nbsp; 
+                <!-- ko text: moment(DateStart).format('DD-MMM-YYYY')--><!-- /ko -->
+            </span>
+            <span>
+                <label style="color: #0f0f0f; font-size: 14px;">End Date :</label>&nbsp;&nbsp;&nbsp; 
+                <!-- ko text: moment(DateEnd).format('DD-MMM-YYYY') --><!-- /ko -->
+            </span>
+            <span style="float: right; padding-right: 10px; color: #0f0f0f; font-size: 14px;">
+                Date : <!-- ko text: moment(CreatedOn).format('DD-MMM-YYYY') --><!-- /ko -->
+            </span>
+            <div class="clear"></div>
+            <span>
+                <label style="color: #0f0f0f; font-size: 14px;">Is Paid :</label>&nbsp;&nbsp;&nbsp; 
+                <!-- ko text: IsPaid --><!-- /ko -->
+            </span>
+            <span>
+                <label style="color: #0f0f0f; font-size: 14px;">Is Approved :</label>&nbsp;&nbsp;&nbsp; 
+                <!-- ko text: IsApproved --><!-- /ko -->
+            </span>
+             <span>
+                <label style="color: #0f0f0f; font-size: 14px;">Is Stop :</label>&nbsp;&nbsp;&nbsp; 
+                <!-- ko text: IsApproved --><!-- /ko -->
+            </span>
+            <span>
+                <label style="color: #0f0f0f; font-size: 14px;">Total Coupons :</label>&nbsp;&nbsp;&nbsp; 
+                <!-- ko text: CouponCounts --><!-- /ko -->
+            </span>
+            <div class="clear"></div>
+            <div style="text-align: right">
+                <a href="#" data-bind="click: $root.showCouponsClick"><b><u>View Coupons</u></b></a>&nbsp;&nbsp;
+            </div>
+            <div style="display:none" data-bind="attr: { id: PromotionId}">
+                <div data-bind="foreach: Coupons">
+                    <table width="99%" border="1" cellpadding="2" cellspacing="2" style="border-collapse: collapse;margin-top:3px" >
+                        <tr>
+                            <td style="color: #0f0f0f;" width="14%">Coupon Name</td>
+                            <td width="35%"><span data-bind="text: $data.CouponName"></span></td>
+                            <td style="color: #0f0f0f;" width="10%">Title</td>
+                            <td><span data-bind="text: $data.CouponTitle"></span></td>
+                        </tr>
+                        <tr>
+                            <td style="color: #0f0f0f;">Redemption Limit</td>
+                            <td><b><span data-bind="text: $data.RedemptionLimit"></span></b></td>
+                            <td style="color: #0f0f0f;">Redeemed</td>
+                            <td><b><span data-bind="text: $data.Redeemed"></span></b></td>
+                        </tr>
+                        <tr>
+                            <td style="color: #0f0f0f;">Status</td>
+                            <td><b><span data-bind="text: $data.Status"></span></b></td>
+                            <td style="color: #0f0f0f;">QR Code</td>
+                            <td><b><span data-bind="text: $data.QRCode"></span></b></td>
+                        </tr>
+                        <tr>
+                            <td style="color: #0f0f0f;">Description</td>
+                            <td colspan="3">
+                                <span data-bind="text: $data.CouponDescription"></span>
+                            </td>
+                        </tr>
+                    </table>
+                    </div>
+            </div>
+        </div>
+        <div class="clear">&nbsp;</div>
+    </div>
+    <!-- /ko -->
+</div>
+
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/knockout-2.3.0.js"></script>
+<script src="~/Scripts/PromotionViewModel.js"></script>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var vm = new promotion();
+            vm.loadData(vm);
+        });
+    </script>
+}
